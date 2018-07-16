@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Counter</string>
+    <string name="set">Настроить</string>
+    <string name="reset">Сброс</string>
+    <string name="reset_dialog_message">Сбросить счетчик?</string>
+    <string name="set_count_title">Настройте счетчик:</string>
+</resources>
