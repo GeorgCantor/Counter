@@ -4,4 +4,6 @@
     <string name="reset">Сброс</string>
     <string name="reset_dialog_message">Сбросить счетчик?</string>
     <string name="set_count_title">Настройте счетчик:</string>
+    <string name="enter_int_toast">Введите число</string>
+    <string name="press_back">Нажмите еще раз, чтобы выйти</string>
 </resources>

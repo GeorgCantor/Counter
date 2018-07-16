@@ -1,6 +1,8 @@
 package com.georgcantor.counter;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,28 +16,35 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button buttonPlus;
-    private Button buttonMinus;
     private TextView counterDisplay;
-    private int counter = 0;
-
+    private int counter;
     private boolean autoIncrement = false;
     private boolean autoDecrement = false;
     private final long REPEAT_DELAY = 50;
     private Handler repeatUpdateHandler = new Handler();
+    private boolean doubleTap = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        buttonPlus = findViewById(R.id.button_plus);
-        buttonMinus = findViewById(R.id.button_minus);
+        Button buttonPlus = findViewById(R.id.button_plus);
+        Button buttonMinus = findViewById(R.id.button_minus);
         counterDisplay = findViewById(R.id.textViewCounter);
-        counterDisplay.setText("0");
+
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        int restoreCount = sharedPref.getInt("counter", counter);
+        if (restoreCount != 0) {
+            counter = restoreCount;
+            counterDisplay.setText(Integer.toString(restoreCount));
+        } else {
+            counterDisplay.setText("0");
+        }
 
         class RepetitiveUpdater implements Runnable {
             @Override
@@ -140,8 +149,14 @@ public class MainActivity extends AppCompatActivity {
         alert.setView(input);
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                counter = Integer.parseInt(input.getText().toString());
-                counterDisplay.setText(Integer.toString(counter));
+                try {
+                    counter = Integer.parseInt(input.getText().toString());
+                    counterDisplay.setText(Integer.toString(counter));
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this, R.string.enter_int_toast,
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
         alert.setNeutralButton("Отмена", new DialogInterface.OnClickListener() {
@@ -167,5 +182,31 @@ public class MainActivity extends AppCompatActivity {
         });
 
         builder.create().show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences.Editor sharedPref = this.getPreferences(Context.MODE_PRIVATE).edit();
+        sharedPref.putInt("counter", counter);
+        sharedPref.apply();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleTap) {
+            super.onBackPressed();
+        } else {
+            Toast.makeText(this, this.getResources().getString(R.string.press_back),
+                    Toast.LENGTH_SHORT).show();
+            doubleTap = true;
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleTap = false;
+                }
+            }, 2000);
+        }
     }
 }
