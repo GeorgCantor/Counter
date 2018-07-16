@@ -3,11 +3,13 @@ package com.georgcantor.counter;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +22,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView counterDisplay;
     private int counter = 0;
 
+    private boolean autoIncrement = false;
+    private boolean autoDecrement = false;
+    private final long REPEAT_DELAY = 50;
+    private Handler repeatUpdateHandler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +36,70 @@ public class MainActivity extends AppCompatActivity {
         buttonMinus = findViewById(R.id.button_minus);
         counterDisplay = findViewById(R.id.textViewCounter);
         counterDisplay.setText("0");
+
+        class RepetitiveUpdater implements Runnable {
+            @Override
+            public void run() {
+                if (autoIncrement) {
+                    increment();
+                    repeatUpdateHandler.postDelayed(new RepetitiveUpdater(), REPEAT_DELAY);
+                } else if (autoDecrement) {
+                    decrement();
+                    repeatUpdateHandler.postDelayed(new RepetitiveUpdater(), REPEAT_DELAY);
+                }
+            }
+        }
+
+        buttonPlus.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                autoIncrement = true;
+                repeatUpdateHandler.post(new RepetitiveUpdater());
+                return false;
+            }
+        });
+
+        buttonPlus.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP && autoIncrement) {
+                    autoIncrement = false;
+                }
+                return false;
+            }
+        });
+
+
+        buttonMinus.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                autoDecrement = true;
+                repeatUpdateHandler.post(new RepetitiveUpdater());
+                return false;
+            }
+        });
+
+        buttonMinus.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP && autoDecrement) {
+                    autoDecrement = false;
+                }
+                return false;
+            }
+        });
+    }
+
+    public void increment() {
+        if (counter < 10000) {
+            counter++;
+            counterDisplay.setText(String.valueOf(counter));
+        }
+    }
+
+    public void decrement() {
+        if (counter < 10000) {
+            counter--;
+            counterDisplay.setText(String.valueOf(counter));
+        }
     }
 
     public void plusClick(View view) {
