@@ -41,13 +41,14 @@ public class MainActivity extends AppCompatActivity {
         Button buttonPlus = findViewById(R.id.button_plus);
         Button buttonMinus = findViewById(R.id.button_minus);
         counterDisplay = findViewById(R.id.textViewCounter);
-        int minutes = getIntent().getExtras().getInt("timer");
 
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         int restoreCount = sharedPref.getInt("counter", counter);
         if (restoreCount != 0) {
             counter = restoreCount;
             counterDisplay.setText(Integer.toString(restoreCount));
+
+            int minutes = getIntent().getExtras().getInt("timer");
             if (minutes != 0) {
                 counter += minutes;
                 counterDisplay.setText(Integer.toString(counter));
