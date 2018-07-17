@@ -6,4 +6,6 @@
     <string name="set_count_title">Настройте счетчик:</string>
     <string name="enter_int_toast">Введите число</string>
     <string name="press_back">Нажмите еще раз, чтобы выйти</string>
+    <string name="start_chrono">Старт</string>
+    <string name="stop_chrono">Стоп</string>
 </resources>

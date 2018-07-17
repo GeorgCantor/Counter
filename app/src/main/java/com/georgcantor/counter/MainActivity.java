@@ -2,10 +2,12 @@ package com.georgcantor.counter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -14,6 +16,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private final long REPEAT_DELAY = 50;
     private Handler repeatUpdateHandler = new Handler();
     private boolean doubleTap = false;
+    private Chronometer chronometer;
+    private boolean isStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +41,29 @@ public class MainActivity extends AppCompatActivity {
         Button buttonPlus = findViewById(R.id.button_plus);
         Button buttonMinus = findViewById(R.id.button_minus);
         counterDisplay = findViewById(R.id.textViewCounter);
+        int minutes = getIntent().getExtras().getInt("timer");
 
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         int restoreCount = sharedPref.getInt("counter", counter);
         if (restoreCount != 0) {
             counter = restoreCount;
             counterDisplay.setText(Integer.toString(restoreCount));
+            if (minutes != 0) {
+                counter += minutes;
+                counterDisplay.setText(Integer.toString(counter));
+            }
         } else {
             counterDisplay.setText("0");
         }
+
+        chronometer = findViewById(R.id.my_chrono);
+        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometerChanged) {
+                chronometer = chronometerChanged;
+            }
+        });
+
 
         class RepetitiveUpdater implements Runnable {
             @Override
@@ -95,6 +114,26 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    public void startStopChronometer(View view) {
+        if (isStart) {
+            chronometer.stop();
+            isStart = false;
+            ((Button) view).setText(R.string.start_chrono);
+            long timeElapsed = SystemClock.elapsedRealtime() - chronometer.getBase();
+            int hours = (int) (timeElapsed / 3600000);
+            int minutes = (int) (timeElapsed - hours * 3600000) / 60000;
+            Intent intent = new Intent(getApplicationContext(),
+                    MainActivity.class).putExtra("timer", minutes);
+            startActivity(intent);
+            Toast.makeText(this, Integer.toString(minutes), Toast.LENGTH_SHORT).show();
+        } else {
+            chronometer.setBase(SystemClock.elapsedRealtime());
+            chronometer.start();
+            isStart = true;
+            ((Button) view).setText(R.string.stop_chrono);
+        }
     }
 
     public void increment() {
