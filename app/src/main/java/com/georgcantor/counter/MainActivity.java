@@ -43,14 +43,22 @@ public class MainActivity extends AppCompatActivity {
         counterDisplay = findViewById(R.id.textViewCounter);
 
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        int restoreMinutes = sharedPref.getInt("minutes", 0);
         int restoreCount = sharedPref.getInt("counter", counter);
         if (restoreCount != 0) {
             counter = restoreCount;
             counterDisplay.setText(Integer.toString(restoreCount));
 
-            int minutes = getIntent().getExtras().getInt("timer");
-            if (minutes != 0) {
-                counter += minutes;
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                int minutes = extras.getInt("timer");
+                if (minutes != 0) {
+                    counter += minutes;
+                    counterDisplay.setText(Integer.toString(counter));
+                }
+            }
+            if (restoreMinutes != 0) {
+                counter += restoreMinutes;
                 counterDisplay.setText(Integer.toString(counter));
             }
         } else {
@@ -227,8 +235,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        long timeElapsed = SystemClock.elapsedRealtime() - chronometer.getBase();
+        int hours = (int) (timeElapsed / 3600000);
+        int minutes = (int) (timeElapsed - hours * 3600000) / 60000;
         SharedPreferences.Editor sharedPref = this.getPreferences(Context.MODE_PRIVATE).edit();
         sharedPref.putInt("counter", counter);
+        sharedPref.putInt("minutes", minutes);
         sharedPref.apply();
     }
 
