@@ -8,4 +8,7 @@
     <string name="press_back">Нажмите еще раз, чтобы выйти</string>
     <string name="start_chrono">Старт</string>
     <string name="stop_chrono">Стоп</string>
+    <string name="msg_no_history">История пуста</string>
+    <string name="add">В историю</string>
+    <string name="set_time_title">Установите время работы:</string>
 </resources>

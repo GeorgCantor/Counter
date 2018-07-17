@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,8 @@ import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.georgcantor.counter.db.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,11 +35,13 @@ public class MainActivity extends AppCompatActivity {
     private boolean doubleTap = false;
     private Chronometer chronometer;
     private boolean isStart;
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        db = new DatabaseHelper(this);
 
         Button buttonPlus = findViewById(R.id.button_plus);
         Button buttonMinus = findViewById(R.id.button_minus);
@@ -186,6 +191,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_reset:
                 openResetDialog();
                 break;
+            case R.id.action_add:
+                openAddToHistoryDialog();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -232,6 +240,28 @@ public class MainActivity extends AppCompatActivity {
         });
 
         builder.create().show();
+    }
+
+    private void openAddToHistoryDialog() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+        alert.setTitle(R.string.set_time_title);
+        final EditText input = new EditText(MainActivity.this);
+        input.setInputType(InputType.TYPE_NUMBER_VARIATION_NORMAL);
+        input.setRawInputType(Configuration.KEYBOARD_12KEY);
+        final Editable time = input.getText();
+        alert.setView(input);
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                db.insertHistory(String.valueOf(time));
+                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+                startActivity(intent);
+            }
+        });
+        alert.setNeutralButton("Отмена", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        });
+        alert.show();
     }
 
     @Override

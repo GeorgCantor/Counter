@@ -20,68 +20,68 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(Counter.CREATE_TABLE);
+        db.execSQL(History.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + Counter.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + History.TABLE_NAME);
         onCreate(db);
     }
 
     public long insertHistory(String time) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(Counter.COLUMN_TIME, time);
+        values.put(History.COLUMN_TIME, time);
 
-        long id = db.insert(Counter.TABLE_NAME, null, values);
+        long id = db.insert(History.TABLE_NAME, null, values);
         db.close();
 
         return id;
     }
 
-    public Counter getCounter(long id) {
+    public History getHistory(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(Counter.TABLE_NAME,
-                new String[]{Counter.COLUMN_ID, Counter.COLUMN_TIME, Counter.COLUMN_TIMESTAMP},
-                Counter.COLUMN_ID + "=?",
+        Cursor cursor = db.query(History.TABLE_NAME,
+                new String[]{History.COLUMN_ID, History.COLUMN_TIME, History.COLUMN_TIMESTAMP},
+                History.COLUMN_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
         if (cursor != null) {
             cursor.moveToNext();
         }
-        Counter counter = new Counter(cursor.getInt(cursor.getColumnIndex(Counter.COLUMN_ID)),
-                cursor.getString(cursor.getColumnIndex(Counter.COLUMN_TIME)),
-                cursor.getString(cursor.getColumnIndex(Counter.COLUMN_TIMESTAMP)));
+        History history = new History(cursor.getInt(cursor.getColumnIndex(History.COLUMN_ID)),
+                cursor.getString(cursor.getColumnIndex(History.COLUMN_TIME)),
+                cursor.getString(cursor.getColumnIndex(History.COLUMN_TIMESTAMP)));
 
         cursor.close();
-        return counter;
+        return history;
     }
 
-    public List<Counter> getAllCounter() {
-        List<Counter> counterList = new ArrayList<>();
+    public List<History> getAllHistory() {
+        List<History> historyList = new ArrayList<>();
 
-        String selectQuery = "SELECT  * FROM " + Counter.TABLE_NAME + " ORDER BY " +
-                Counter.COLUMN_TIMESTAMP + " DESC";
+        String selectQuery = "SELECT  * FROM " + History.TABLE_NAME + " ORDER BY " +
+                History.COLUMN_TIMESTAMP + " DESC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             do {
-                Counter counter = new Counter();
-                counter.setId(cursor.getInt(cursor.getColumnIndex(Counter.COLUMN_ID)));
-                counter.setTime(cursor.getString(cursor.getColumnIndex(Counter.COLUMN_TIME)));
-                counter.setTimestamp(cursor.getString(cursor.getColumnIndex(Counter.COLUMN_TIMESTAMP)));
+                History history = new History();
+                history.setId(cursor.getInt(cursor.getColumnIndex(History.COLUMN_ID)));
+                history.setTime(cursor.getString(cursor.getColumnIndex(History.COLUMN_TIME)));
+                history.setTimestamp(cursor.getString(cursor.getColumnIndex(History.COLUMN_TIMESTAMP)));
 
-                counterList.add(counter);
+                historyList.add(history);
             } while (cursor.moveToNext());
         }
         db.close();
-        return counterList;
+        return historyList;
     }
 
     public int getHistoryCount() {
-        String countQuery = "SELECT  * FROM " + Counter.TABLE_NAME;
+        String countQuery = "SELECT  * FROM " + History.TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         int count = cursor.getCount();
@@ -90,19 +90,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    public int updateCounter(Counter counter) {
+    public int updateHistory(History history) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(Counter.COLUMN_TIME, counter.getTime());
+        values.put(History.COLUMN_TIME, history.getTime());
 
-        return db.update(Counter.TABLE_NAME, values, Counter.COLUMN_ID + " = ?",
-                new String[]{String.valueOf(counter.getId())});
+        return db.update(History.TABLE_NAME, values, History.COLUMN_ID + " = ?",
+                new String[]{String.valueOf(history.getId())});
     }
 
-    public void deleteHistory(Counter counter) {
+    public void deleteHistory(History history) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(Counter.TABLE_NAME, Counter.COLUMN_ID + " = ?",
-                new String[]{String.valueOf(counter.getId())});
+        db.delete(History.TABLE_NAME, History.COLUMN_ID + " = ?",
+                new String[]{String.valueOf(history.getId())});
         db.close();
     }
 }

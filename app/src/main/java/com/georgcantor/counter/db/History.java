@@ -1,6 +1,6 @@
 package com.georgcantor.counter.db;
 
-public class Counter {
+public class History {
 
     public static final String TABLE_NAME = "counter";
 
@@ -19,10 +19,10 @@ public class Counter {
             + COLUMN_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP"
             + ")";
 
-    public Counter() {
+    public History() {
     }
 
-    public Counter(int id, String time, String timestamp) {
+    public History(int id, String time, String timestamp) {
         this.id = id;
         this.time = time;
         this.timestamp = timestamp;

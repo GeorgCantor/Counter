@@ -5,6 +5,12 @@
     tools:context="com.georgcantor.vipnews.ui.MainActivity">
 
     <item
+        android:id="@+id/action_add"
+        android:icon="@drawable/ic_add"
+        android:title="@string/add"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_reset"
         android:icon="@drawable/ic_reset"
         android:title="@string/reset"
