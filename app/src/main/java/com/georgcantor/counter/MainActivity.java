@@ -45,18 +45,20 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         int restoreMinutes = sharedPref.getInt("minutes", 0);
         int restoreCount = sharedPref.getInt("counter", counter);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            int minutes = extras.getInt("timer");
+            if (minutes != 0) {
+                counter += minutes;
+                counterDisplay.setText(Integer.toString(counter));
+            }
+        }
+
         if (restoreCount != 0) {
             counter = restoreCount;
             counterDisplay.setText(Integer.toString(restoreCount));
 
-            Bundle extras = getIntent().getExtras();
-            if (extras != null) {
-                int minutes = extras.getInt("timer");
-                if (minutes != 0) {
-                    counter += minutes;
-                    counterDisplay.setText(Integer.toString(counter));
-                }
-            }
             if (restoreMinutes != 0) {
                 counter += restoreMinutes;
                 counterDisplay.setText(Integer.toString(counter));
