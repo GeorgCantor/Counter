@@ -11,4 +11,6 @@
     <string name="msg_no_history">История пуста</string>
     <string name="add">В историю</string>
     <string name="set_time_title">Установите время работы:</string>
+    <string name="hint_enter_note">Введите новое значение:</string>
+    <string name="history">История</string>
 </resources>

@@ -22,4 +22,10 @@
         android:title="@string/set"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/action_history"
+        android:icon="@drawable/ic_timeline_black_24dp"
+        android:title="@string/history"
+        app:showAsAction="ifRoom" />
+
 </menu>

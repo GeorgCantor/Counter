@@ -194,6 +194,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_add:
                 openAddToHistoryDialog();
                 break;
+            case R.id.action_history:
+                openHistoryActivity();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -262,6 +265,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         alert.show();
+    }
+
+    private void openHistoryActivity() {
+        startActivity(new Intent(this, HistoryActivity.class));
     }
 
     @Override
