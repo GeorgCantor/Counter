@@ -105,4 +105,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(history.getId())});
         db.close();
     }
+
+    public void deleteAllHistory() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(History.TABLE_NAME, null, null);
+        db.close();
+    }
 }

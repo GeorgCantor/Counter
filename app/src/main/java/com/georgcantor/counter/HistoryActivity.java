@@ -9,9 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -122,7 +123,6 @@ public class HistoryActivity extends AppCompatActivity {
         final EditText inputNote = view.findViewById(R.id.note);
 
         if (shouldUpdate && history != null) {
-            inputNote.setInputType(InputType.TYPE_CLASS_NUMBER);
             inputNote.setRawInputType(Configuration.KEYBOARD_12KEY);
             inputNote.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             inputNote.setText(history.getTime());
@@ -161,6 +161,41 @@ public class HistoryActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_history, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_delete_all:
+                deleteAllHistory();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteAllHistory() {
+        AlertDialog alertDialog = new AlertDialog.Builder(HistoryActivity.this).create();
+        alertDialog.setMessage("Удалить всю историю?");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Да",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        db.deleteAllHistory();
+                        restartActivity();
+                        toggleEmptyHistory();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Отмена",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        alertDialog.show();
     }
 
     private void toggleEmptyHistory() {

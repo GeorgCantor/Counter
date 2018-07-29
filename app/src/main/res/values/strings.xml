@@ -13,4 +13,5 @@
     <string name="set_time_title">Установите время работы:</string>
     <string name="hint_enter_note">Введите новое значение:</string>
     <string name="history">История</string>
+    <string name="delete_all">Delete All</string>
 </resources>

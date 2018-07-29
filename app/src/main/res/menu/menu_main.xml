@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.georgcantor.vipnews.ui.MainActivity">
+    tools:context=".MainActivity">
 
     <item
         android:id="@+id/action_add"
@@ -23,7 +23,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_history"
+        android:id="@+id/action_delete_all"
         android:icon="@drawable/ic_timeline_black_24dp"
         android:title="@string/history"
         app:showAsAction="ifRoom" />
