@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_add:
                 openAddToHistoryDialog();
                 break;
-            case R.id.action_delete_all:
+            case R.id.action_open_history:
                 openHistoryActivity();
                 break;
         }
