@@ -27,6 +27,7 @@ import com.georgcantor.counter.db.DatabaseHelper;
 public class MainActivity extends AppCompatActivity {
 
     private TextView counterDisplay;
+    private TextView oldCounterDisplay;
     private int counter;
     private boolean autoIncrement = false;
     private boolean autoDecrement = false;
@@ -45,11 +46,19 @@ public class MainActivity extends AppCompatActivity {
 
         Button buttonPlus = findViewById(R.id.button_plus);
         Button buttonMinus = findViewById(R.id.button_minus);
+        Button buttonEqual = findViewById(R.id.buttonEqual);
+        Button buttonRevEqual = findViewById(R.id.buttonReverseEqual);
         counterDisplay = findViewById(R.id.textViewCounter);
+        oldCounterDisplay = findViewById(R.id.textViewOldCounter);
 
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         int restoreMinutes = sharedPref.getInt("minutes", 0);
         int restoreCount = sharedPref.getInt("counter", counter);
+        String restoreOldCount = sharedPref.getString("oldCounter", null);
+
+        if (restoreOldCount != null) {
+            oldCounterDisplay.setText(restoreOldCount);
+        }
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -130,6 +139,21 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        buttonEqual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                oldCounterDisplay.setText(String.valueOf(counter));
+            }
+        });
+
+        buttonRevEqual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String oldCounter = String.valueOf(oldCounterDisplay.getText());
+                counterDisplay.setText(oldCounter);
+            }
+        });
     }
 
     public void startStopChronometer(View view) {
@@ -142,8 +166,9 @@ public class MainActivity extends AppCompatActivity {
             int minutes = (int) (timeElapsed - hours * 3600000) / 60000;
             Intent intent = new Intent(getApplicationContext(),
                     MainActivity.class).putExtra("timer", minutes);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-            Toast.makeText(this, Integer.toString(minutes), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, Integer.toString(minutes), Toast.LENGTH_LONG).show();
         } else {
             chronometer.setBase(SystemClock.elapsedRealtime());
             chronometer.start();
@@ -156,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
         if (counter < 10000) {
             counter++;
             counterDisplay.setText(String.valueOf(counter));
+            oldCounterDisplay.setText(String.valueOf(counter));
         }
     }
 
@@ -163,17 +189,20 @@ public class MainActivity extends AppCompatActivity {
         if (counter < 10000) {
             counter--;
             counterDisplay.setText(String.valueOf(counter));
+            oldCounterDisplay.setText(String.valueOf(counter));
         }
     }
 
     public void plusClick(View view) {
         counter++;
         counterDisplay.setText(Integer.toString(counter));
+        oldCounterDisplay.setText(Integer.toString(counter));
     }
 
     public void minusClick(View view) {
         counter--;
         counterDisplay.setText(Integer.toString(counter));
+        oldCounterDisplay.setText(Integer.toString(counter));
     }
 
     @Override
@@ -213,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     counter = Integer.parseInt(input.getText().toString());
                     counterDisplay.setText(Integer.toString(counter));
+                    oldCounterDisplay.setText(Integer.toString(counter));
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                     Toast.makeText(MainActivity.this, R.string.enter_int_toast,
@@ -234,6 +264,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
                 counter = 0;
                 counterDisplay.setText("0");
+                oldCounterDisplay.setText("0");
             }
         });
 
@@ -274,12 +305,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        String oldCounter = (String) oldCounterDisplay.getText();
         long timeElapsed = SystemClock.elapsedRealtime() - chronometer.getBase();
         int hours = (int) (timeElapsed / 3600000);
         int minutes = (int) (timeElapsed - hours * 3600000) / 60000;
         SharedPreferences.Editor sharedPref = this.getPreferences(Context.MODE_PRIVATE).edit();
         sharedPref.putInt("counter", counter);
         sharedPref.putInt("minutes", minutes);
+        sharedPref.putString("oldCounter", oldCounter);
         sharedPref.apply();
     }
 
