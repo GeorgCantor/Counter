@@ -1,5 +1,6 @@
 package com.georgcantor.counter
 
+import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.SystemClock
 import android.support.v7.app.AppCompatActivity
@@ -20,8 +21,12 @@ class NewCounterActivity : AppCompatActivity() {
 
         chronometer.onChronometerTickListener = Chronometer.OnChronometerTickListener {
             chronometer = it
-            var timeElapsed = chronometer.text.toString()
-            if (timeElapsed == "00:08") {
+            val timeElapsed = chronometer.text.toString()
+            if (timeElapsed == "60:00") {
+                val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                val ringtone = RingtoneManager.getRingtone(applicationContext, notification)
+                ringtone.play()
+
                 timeWhenStopped = 0
                 isRunning = false
                 buttonPlay.text = "Play"
