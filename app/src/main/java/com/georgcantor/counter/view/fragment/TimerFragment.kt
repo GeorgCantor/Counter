@@ -29,15 +29,28 @@ class TimerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var isStarted = false
+        viewModel.isStarted.observe(viewLifecycleOwner, Observer {
+            isStarted = it
+        })
+        viewModel.timer.observe(viewLifecycleOwner, Observer {
+            countdownTextView.text = it
+        })
+
         startButton.setOnClickListener {
-            viewModel.startCountdownTimer()
-            viewModel.timer.observe(viewLifecycleOwner, Observer {
-                countdownTextView.text = it
-            })
-            viewModel.hours.observe(viewLifecycleOwner, Observer {
-                hoursTextView.text = it
-            })
+            if (isStarted) {
+                viewModel.pause()
+            } else {
+                val last = (countdownTextView.text.toString().toLong()) * 1000
+                viewModel.startCountdownTimer(last)
+                viewModel.hours.observe(viewLifecycleOwner, Observer {
+                    hoursTextView.text = it
+                })
+            }
         }
+        viewModel.buttonText.observe(viewLifecycleOwner, Observer {
+            startButton.text = it
+        })
     }
 
 }
