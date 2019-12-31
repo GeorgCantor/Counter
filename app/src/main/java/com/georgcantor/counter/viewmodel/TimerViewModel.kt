@@ -34,12 +34,8 @@ class TimerViewModel : BaseViewModel() {
 
     fun pause() {
         countDownTimer.cancel()
+        buttonText.value = "Continue"
         isStarted.value = false
-    }
-
-    fun resume(mil: Long) {
-        startCountdownTimer(mil)
-        isStarted.value = true
     }
 
 }

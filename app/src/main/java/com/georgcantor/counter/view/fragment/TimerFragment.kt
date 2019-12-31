@@ -36,6 +36,9 @@ class TimerFragment : Fragment() {
         viewModel.timer.observe(viewLifecycleOwner, Observer {
             countdownTextView.text = it
         })
+        viewModel.hours.observe(viewLifecycleOwner, Observer {
+            hoursTextView.text = it
+        })
 
         startButton.setOnClickListener {
             if (isStarted) {
@@ -43,9 +46,6 @@ class TimerFragment : Fragment() {
             } else {
                 val last = (countdownTextView.text.toString().toLong()) * 1000
                 viewModel.startCountdownTimer(last)
-                viewModel.hours.observe(viewLifecycleOwner, Observer {
-                    hoursTextView.text = it
-                })
             }
         }
         viewModel.buttonText.observe(viewLifecycleOwner, Observer {
