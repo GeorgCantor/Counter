@@ -33,9 +33,10 @@ class TimerViewModel : BaseViewModel() {
             }
 
             override fun onTick(millisUntilFinished: Long) {
-                val minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
-                val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
-                -TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
+                val millis = TimeUnit.MILLISECONDS
+                val minutes = millis.toMinutes(millisUntilFinished)
+                val seconds = millis.toSeconds(millisUntilFinished) -
+                        TimeUnit.MINUTES.toSeconds(millis.toMinutes(millisUntilFinished))
 
                 formattedTime.value = "$minutes:$seconds"
                 timer.value = millisUntilFinished

@@ -18,10 +18,14 @@ class PreferenceManager(activity: Activity) {
 
     fun saveInt(key: String, value: Int) = prefs.edit().putInt(key, value).apply()
 
+    fun saveLong(key: String, value: Long) = prefs.edit().putLong(key, value).apply()
+
     fun getBoolean(key: String): Boolean = prefs.getBoolean(key, false)
 
     fun getString(key: String): String? = prefs.getString(key, "")
 
     fun getInt(key: String): Int = prefs.getInt(key, 0)
+
+    fun getLong(key: String): Long = prefs.getLong(key, 0L)
 
 }
