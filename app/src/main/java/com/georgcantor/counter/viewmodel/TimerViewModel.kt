@@ -3,9 +3,13 @@ package com.georgcantor.counter.viewmodel
 import android.media.MediaActionSound
 import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
+import com.georgcantor.counter.model.Day
+import com.georgcantor.counter.model.DaysDao
+import kotlinx.coroutines.launch
+import java.util.*
 import java.util.concurrent.TimeUnit
 
-class TimerViewModel : BaseViewModel() {
+class TimerViewModel(private val dao: DaysDao) : BaseViewModel() {
 
     companion object {
         private const val START = "Start"
@@ -32,6 +36,15 @@ class TimerViewModel : BaseViewModel() {
                 buttonText.value = START
                 isStarted.value = false
                 MediaActionSound().play(MediaActionSound.START_VIDEO_RECORDING)
+
+                val todayInMillis = Calendar.getInstance().get(Calendar.MILLISECOND)
+                ioScope.launch {
+                    if (dao.getById(todayInMillis).isNotEmpty()) {
+                        dao.updateById(todayInMillis, hour)
+                    } else {
+                        dao.insert(Day(id = todayInMillis, hours = hour))
+                    }
+                }
             }
 
             override fun onTick(millisUntilFinished: Long) {
