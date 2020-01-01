@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "days")
 data class Day(
     @PrimaryKey
-    val id: Int,
+    val id: String,
     val hours: Int
 //    @TypeConverters(CalendarConverter::class)
 //    val calendar: Calendar

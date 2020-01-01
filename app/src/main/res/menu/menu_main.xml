@@ -5,27 +5,9 @@
     tools:context=".MainActivity">
 
     <item
-        android:id="@+id/action_add"
-        android:icon="@drawable/ic_add"
-        android:title="@string/add"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/action_reset"
-        android:icon="@drawable/ic_reset"
-        android:title="@string/reset"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/action_set"
-        android:icon="@drawable/ic_set"
+        android:id="@+id/action_history"
+        android:icon="@drawable/ic_history"
         android:title="@string/set"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/action_open_history"
-        android:icon="@drawable/ic_timeline_black_24dp"
-        android:title="@string/history"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
 </menu>

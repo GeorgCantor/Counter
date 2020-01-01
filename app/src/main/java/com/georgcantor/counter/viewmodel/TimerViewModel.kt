@@ -6,15 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import com.georgcantor.counter.model.Day
 import com.georgcantor.counter.model.DaysDao
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+
 
 class TimerViewModel(private val dao: DaysDao) : BaseViewModel() {
 
     companion object {
         private const val START = "Start"
         private const val TIMER = "60:00"
-        private const val HOUR = 3600000L
+        private const val HOUR = 15000L
     }
 
     private lateinit var countDownTimer: CountDownTimer
@@ -37,12 +39,13 @@ class TimerViewModel(private val dao: DaysDao) : BaseViewModel() {
                 isStarted.value = false
                 MediaActionSound().play(MediaActionSound.START_VIDEO_RECORDING)
 
-                val todayInMillis = Calendar.getInstance().get(Calendar.MILLISECOND)
                 ioScope.launch {
-                    if (dao.getById(todayInMillis).isNotEmpty()) {
-                        dao.updateById(todayInMillis, hour)
+                    val currentDate: String =
+                        SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
+                    if (dao.getById(currentDate).isNotEmpty()) {
+                        dao.updateById(currentDate, hour)
                     } else {
-                        dao.insert(Day(id = todayInMillis, hours = hour))
+                        dao.insert(Day(id = currentDate, hours = hour))
                     }
                 }
             }

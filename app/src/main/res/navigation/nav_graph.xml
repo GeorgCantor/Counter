@@ -9,4 +9,9 @@
         android:name="com.georgcantor.counter.view.fragment.TimerFragment"
         android:label="TimerFragment" />
 
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.georgcantor.counter.view.fragment.StatisticsFragment"
+        android:label="StatisticsFragment" />
+
 </navigation>
