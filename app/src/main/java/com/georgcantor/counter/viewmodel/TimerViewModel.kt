@@ -16,7 +16,7 @@ class TimerViewModel(private val dao: DaysDao) : BaseViewModel() {
     companion object {
         private const val START = "Start"
         private const val TIMER = "60:00"
-        private const val HOUR = 15000L
+        private const val HOUR = 3600000L
     }
 
     private lateinit var countDownTimer: CountDownTimer

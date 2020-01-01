@@ -11,7 +11,7 @@
 
     <fragment
         android:id="@+id/statisticsFragment"
-        android:name="com.georgcantor.counter.view.fragment.StatisticsFragment"
+        android:name="com.georgcantor.counter.view.fragment.HistoryFragment"
         android:label="StatisticsFragment" />
 
 </navigation>

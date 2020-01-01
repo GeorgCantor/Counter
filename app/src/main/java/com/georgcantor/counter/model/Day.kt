@@ -8,6 +8,4 @@ data class Day(
     @PrimaryKey
     val id: String,
     val hours: Int
-//    @TypeConverters(CalendarConverter::class)
-//    val calendar: Calendar
 )
