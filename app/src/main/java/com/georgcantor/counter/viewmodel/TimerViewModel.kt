@@ -10,7 +10,7 @@ class TimerViewModel : BaseViewModel() {
     companion object {
         private const val START = "Start"
         private const val TIMER = "60:00"
-        private const val HOUR = 3600000L
+        private const val HOUR = 20000L
     }
 
     private lateinit var countDownTimer: CountDownTimer
@@ -21,7 +21,7 @@ class TimerViewModel : BaseViewModel() {
     val buttonText = MutableLiveData<String>().apply { postValue(START) }
     val isStarted = MutableLiveData<Boolean>().apply { postValue(false) }
 
-    fun startCountdownTimer(length: Long) {
+    private fun start(length: Long) {
         countDownTimer = object : CountDownTimer(length, 1000) {
 
             override fun onFinish() {
@@ -49,10 +49,14 @@ class TimerViewModel : BaseViewModel() {
         }.start()
     }
 
-    fun pause() {
+    private fun pause() {
         countDownTimer.cancel()
         buttonText.value = "Continue"
         isStarted.value = false
+    }
+
+    fun startOrStop() {
+        if (isStarted.value == true) pause() else start(timer.value ?: 0L)
     }
 
 }
