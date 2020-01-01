@@ -6,12 +6,18 @@ import java.util.concurrent.TimeUnit
 
 class TimerViewModel : BaseViewModel() {
 
+    companion object {
+        private const val START = "Start"
+        private const val TIMER = "60:00"
+        private const val HOUR = 3600000L
+    }
+
     private lateinit var countDownTimer: CountDownTimer
-    var formattedTime = MutableLiveData<String>().apply { postValue("00:20") }
+    var formattedTime = MutableLiveData<String>().apply { postValue(TIMER) }
     var hour = 0
-    val timer = MutableLiveData<Long>().apply { postValue(20000) }
+    val timer = MutableLiveData<Long>().apply { postValue(HOUR) }
     val hours = MutableLiveData<String>().apply { postValue(hour.toString()) }
-    val buttonText = MutableLiveData<String>().apply { postValue("Start") }
+    val buttonText = MutableLiveData<String>().apply { postValue(START) }
     val isStarted = MutableLiveData<Boolean>().apply { postValue(false) }
 
     fun startCountdownTimer(length: Long) {
@@ -20,15 +26,17 @@ class TimerViewModel : BaseViewModel() {
             override fun onFinish() {
                 hour++
                 hours.value = hour.toString()
-                formattedTime.value = "00:20"
-                timer.value = 20000
-                buttonText.value = "Start"
+                formattedTime.value = TIMER
+                timer.value = HOUR
+                buttonText.value = START
                 isStarted.value = false
             }
 
             override fun onTick(millisUntilFinished: Long) {
                 val minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
                 val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+                -TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
+
                 formattedTime.value = "$minutes:$seconds"
                 timer.value = millisUntilFinished
                 buttonText.value = "Pause"

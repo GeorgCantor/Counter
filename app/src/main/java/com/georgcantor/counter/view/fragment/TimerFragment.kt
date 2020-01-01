@@ -31,6 +31,7 @@ class TimerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         var isStarted = false
         var time = 0L
+
         viewModel.isStarted.observe(viewLifecycleOwner, Observer {
             isStarted = it
         })
