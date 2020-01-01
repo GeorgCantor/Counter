@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-
 class TimerViewModel(private val dao: DaysDao) : BaseViewModel() {
 
     companion object {

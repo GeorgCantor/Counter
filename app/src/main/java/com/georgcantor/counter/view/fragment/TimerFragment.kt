@@ -2,10 +2,12 @@ package com.georgcantor.counter.view.fragment
 
 import android.os.Bundle
 import android.view.*
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.georgcantor.counter.R
+import com.georgcantor.counter.util.showDialog
 import com.georgcantor.counter.viewmodel.TimerViewModel
 import kotlinx.android.synthetic.main.fragment_timer.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -29,6 +31,14 @@ class TimerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    requireContext().showDialog(getString(R.string.exit_message), ::exit)
+                }
+            })
 
         viewModel.hours.observe(viewLifecycleOwner, Observer {
             hoursTextView.text = it
@@ -58,6 +68,10 @@ class TimerFragment : Fragment() {
             }
         }
         return false
+    }
+
+    private fun exit() {
+        requireActivity().finish()
     }
 
 }

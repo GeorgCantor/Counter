@@ -11,4 +11,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
+//    override fun onBackPressed() {
+//        showDialog("Exit?", ::exit)
+//    }
+//
+//    private fun exit() {
+//        super.onBackPressed()
+//    }
+
 }
