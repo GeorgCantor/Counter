@@ -1,5 +1,6 @@
 package com.georgcantor.counter.viewmodel
 
+import android.media.MediaActionSound
 import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import java.util.concurrent.TimeUnit
@@ -30,6 +31,7 @@ class TimerViewModel : BaseViewModel() {
                 timer.value = HOUR
                 buttonText.value = START
                 isStarted.value = false
+                MediaActionSound().play(MediaActionSound.START_VIDEO_RECORDING)
             }
 
             override fun onTick(millisUntilFinished: Long) {
