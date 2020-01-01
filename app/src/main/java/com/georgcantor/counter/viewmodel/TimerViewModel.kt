@@ -10,7 +10,7 @@ class TimerViewModel : BaseViewModel() {
     companion object {
         private const val START = "Start"
         private const val TIMER = "60:00"
-        private const val HOUR = 20000L
+        private const val HOUR = 3600000L
     }
 
     private lateinit var countDownTimer: CountDownTimer
@@ -55,7 +55,7 @@ class TimerViewModel : BaseViewModel() {
         isStarted.value = false
     }
 
-    fun startOrStop() {
+    fun startOrPause() {
         if (isStarted.value == true) pause() else start(timer.value ?: 0L)
     }
 

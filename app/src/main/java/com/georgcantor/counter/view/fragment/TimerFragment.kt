@@ -29,12 +29,13 @@ class TimerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.hours.observe(viewLifecycleOwner, Observer {
             hoursTextView.text = it
         })
 
         startButton.setOnClickListener {
-            viewModel.startOrStop()
+            viewModel.startOrPause()
         }
         viewModel.buttonText.observe(viewLifecycleOwner, Observer {
             startButton.text = it
