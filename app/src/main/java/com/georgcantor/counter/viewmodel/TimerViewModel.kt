@@ -5,23 +5,29 @@ import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import com.georgcantor.counter.model.Day
 import com.georgcantor.counter.model.DaysDao
+import com.georgcantor.counter.util.PreferenceManager
+import com.georgcantor.counter.util.PreferenceManager.Companion.MINUTES
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class TimerViewModel(private val dao: DaysDao) : BaseViewModel() {
+class TimerViewModel(
+    private val manager: PreferenceManager,
+    private val dao: DaysDao
+) : BaseViewModel() {
 
     companion object {
-        private const val START = "Start"
+        private const val START = "Старт"
         private const val TIMER = "60:00"
-        private const val HOUR = 3600000L
     }
+
+    private val minutes: Long by lazy { manager.getLong(MINUTES) }
 
     private lateinit var countDownTimer: CountDownTimer
     var hour = 0
     var formattedTime = MutableLiveData<String>().apply { postValue(TIMER) }
-    val timer = MutableLiveData<Long>().apply { postValue(HOUR) }
+    val timer = MutableLiveData<Long>().apply { postValue(minutes) }
     val hours = MutableLiveData<String>()
     val buttonText = MutableLiveData<String>().apply { postValue(START) }
     val isStarted = MutableLiveData<Boolean>().apply { postValue(false) }
@@ -43,7 +49,7 @@ class TimerViewModel(private val dao: DaysDao) : BaseViewModel() {
                 hour++
                 hours.value = hour.toString()
                 formattedTime.value = TIMER
-                timer.value = HOUR
+                timer.value = minutes
                 buttonText.value = START
                 isStarted.value = false
                 MediaActionSound().play(MediaActionSound.START_VIDEO_RECORDING)
@@ -65,7 +71,7 @@ class TimerViewModel(private val dao: DaysDao) : BaseViewModel() {
 
                 formattedTime.value = "$minutes:$seconds"
                 timer.value = millisUntilFinished
-                buttonText.value = "Pause"
+                buttonText.value = "Пауза"
                 isStarted.value = true
             }
 
@@ -74,7 +80,7 @@ class TimerViewModel(private val dao: DaysDao) : BaseViewModel() {
 
     private fun pause() {
         countDownTimer.cancel()
-        buttonText.value = "Continue"
+        buttonText.value = "Продолжить"
         isStarted.value = false
     }
 

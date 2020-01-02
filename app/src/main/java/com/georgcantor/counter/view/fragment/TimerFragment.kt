@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.georgcantor.counter.R
+import com.georgcantor.counter.util.PreferenceManager
 import com.georgcantor.counter.util.showDialog
 import com.georgcantor.counter.viewmodel.TimerViewModel
 import kotlinx.android.synthetic.main.fragment_timer.*
@@ -21,7 +22,7 @@ class TimerFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel = getViewModel { parametersOf() }
+        viewModel = getViewModel { parametersOf(PreferenceManager(requireActivity())) }
     }
 
     override fun onCreateView(
@@ -70,6 +71,9 @@ class TimerFragment : Fragment() {
             }
             R.id.action_graph -> {
                 view?.let { Navigation.findNavController(it).navigate(R.id.graphFragment) }
+            }
+            R.id.action_tune -> {
+                view?.let { Navigation.findNavController(it).navigate(R.id.settingsFragment) }
             }
         }
         return false

@@ -16,4 +16,10 @@
         android:title="Graph"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_tune"
+        android:icon="@drawable/ic_tune"
+        android:title="Tune"
+        app:showAsAction="ifRoom" />
+
 </menu>

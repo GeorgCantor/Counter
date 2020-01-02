@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">Counter</string>
-    <string name="no">No</string>
-    <string name="yes">Yes</string>
-    <string name="exit_message">Exit from App?</string>
+    <string name="app_name">Счетчик времени</string>
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
+    <string name="exit_message">Выйти из приложения?</string>
+    <string name="settings_hint">Установите количество минут для отсчета</string>
+    <string name="apply">Применить</string>
 </resources>
