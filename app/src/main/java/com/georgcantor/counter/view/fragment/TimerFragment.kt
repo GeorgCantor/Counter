@@ -45,9 +45,6 @@ class TimerFragment : Fragment() {
             hoursTextView.text = it
         })
 
-        startButton.setOnClickListener {
-            viewModel.startOrPause()
-        }
         viewModel.buttonText.observe(viewLifecycleOwner, Observer {
             startButton.text = it
         })
@@ -55,6 +52,10 @@ class TimerFragment : Fragment() {
         viewModel.formattedTime.observe(viewLifecycleOwner, Observer {
             countdownTextView.text = it
         })
+
+        startButton.setOnClickListener {
+            viewModel.startOrPause()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

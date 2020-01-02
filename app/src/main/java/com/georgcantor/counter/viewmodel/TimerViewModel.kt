@@ -19,12 +19,22 @@ class TimerViewModel(private val dao: DaysDao) : BaseViewModel() {
     }
 
     private lateinit var countDownTimer: CountDownTimer
-    var formattedTime = MutableLiveData<String>().apply { postValue(TIMER) }
     var hour = 0
+    var formattedTime = MutableLiveData<String>().apply { postValue(TIMER) }
     val timer = MutableLiveData<Long>().apply { postValue(HOUR) }
-    val hours = MutableLiveData<String>().apply { postValue(hour.toString()) }
+    val hours = MutableLiveData<String>()
     val buttonText = MutableLiveData<String>().apply { postValue(START) }
     val isStarted = MutableLiveData<Boolean>().apply { postValue(false) }
+
+    val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
+
+    init {
+        ioScope.launch {
+            val days = dao.getById(currentDate)
+            hour = if (days.isNotEmpty()) days.first().hours else 0
+            hours.postValue(hour.toString())
+        }
+    }
 
     private fun start(length: Long) {
         countDownTimer = object : CountDownTimer(length, 1000) {
@@ -39,8 +49,6 @@ class TimerViewModel(private val dao: DaysDao) : BaseViewModel() {
                 MediaActionSound().play(MediaActionSound.START_VIDEO_RECORDING)
 
                 ioScope.launch {
-                    val currentDate: String =
-                        SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
                     if (dao.getById(currentDate).isNotEmpty()) {
                         dao.updateById(currentDate, hour)
                     } else {
