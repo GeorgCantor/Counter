@@ -1,6 +1,7 @@
 package com.georgcantor.counter.di
 
 import com.georgcantor.counter.model.DaysDatabase
+import com.georgcantor.counter.viewmodel.GraphViewModel
 import com.georgcantor.counter.viewmodel.HistoryViewModel
 import com.georgcantor.counter.viewmodel.TimerViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -12,6 +13,9 @@ val viewModelModule = module {
     }
     viewModel {
         HistoryViewModel(get())
+    }
+    viewModel {
+        GraphViewModel(get())
     }
 }
 

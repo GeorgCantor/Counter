@@ -10,4 +10,10 @@
         android:title="History"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_graph"
+        android:icon="@drawable/ic_timeline"
+        android:title="Graph"
+        app:showAsAction="always" />
+
 </menu>

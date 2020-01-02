@@ -67,6 +67,9 @@ class TimerFragment : Fragment() {
             R.id.action_history -> {
                 view?.let { Navigation.findNavController(it).navigate(R.id.statisticsFragment) }
             }
+            R.id.action_graph -> {
+                view?.let { Navigation.findNavController(it).navigate(R.id.graphFragment) }
+            }
         }
         return false
     }
