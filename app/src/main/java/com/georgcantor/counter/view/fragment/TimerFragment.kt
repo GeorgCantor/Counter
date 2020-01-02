@@ -1,5 +1,6 @@
 package com.georgcantor.counter.view.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.activity.OnBackPressedCallback
@@ -71,7 +72,10 @@ class TimerFragment : Fragment() {
     }
 
     private fun exit() {
-        requireActivity().finish()
+        val intent = Intent(Intent.ACTION_MAIN)
+        intent.addCategory(Intent.CATEGORY_HOME)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        requireActivity().startActivity(intent)
     }
 
 }
