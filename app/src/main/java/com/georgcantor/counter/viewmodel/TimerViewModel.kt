@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.georgcantor.counter.model.Day
 import com.georgcantor.counter.model.DaysDao
 import com.georgcantor.counter.util.PreferenceManager
+import com.georgcantor.counter.util.PreferenceManager.Companion.FORMATTED_MINUTES
 import com.georgcantor.counter.util.PreferenceManager.Companion.MINUTES
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -19,14 +20,14 @@ class TimerViewModel(
 
     companion object {
         private const val START = "Старт"
-        private const val TIMER = "60:00"
     }
 
     private val minutes: Long by lazy { manager.getLong(MINUTES) }
+    private val formatted: String by lazy { manager.getString(FORMATTED_MINUTES) ?: "60:00" }
 
     private lateinit var countDownTimer: CountDownTimer
     var hour = 0
-    var formattedTime = MutableLiveData<String>().apply { postValue(TIMER) }
+    var formattedTime = MutableLiveData<String>().apply { postValue(formatted) }
     val timer = MutableLiveData<Long>().apply { postValue(minutes) }
     val hours = MutableLiveData<String>()
     val buttonText = MutableLiveData<String>().apply { postValue(START) }
@@ -48,7 +49,7 @@ class TimerViewModel(
             override fun onFinish() {
                 hour++
                 hours.value = hour.toString()
-                formattedTime.value = TIMER
+                formattedTime.value = formatted
                 timer.value = minutes
                 buttonText.value = START
                 isStarted.value = false

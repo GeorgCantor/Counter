@@ -49,7 +49,7 @@ class SettingsFragment : Fragment() {
         })
 
         applyButton.setOnClickListener {
-            viewModel.setMinutes(minutes.toString().toLong() * 60 * 1000)
+            viewModel.setMinutes(minutes.toString())
             requireActivity().recreate()
         }
     }
