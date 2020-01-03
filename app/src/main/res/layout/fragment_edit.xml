@@ -34,8 +34,10 @@
         android:id="@+id/applyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@drawable/button"
         android:padding="16dp"
         android:text="@string/apply"
+        android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/hoursEditText" />
