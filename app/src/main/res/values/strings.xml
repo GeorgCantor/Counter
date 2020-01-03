@@ -6,4 +6,6 @@
     <string name="settings_hint">Установите количество минут для отсчета</string>
     <string name="apply">Применить</string>
     <string name="change_hours_hint">Укажите количество часов</string>
+    <string name="add_day_hint">Добавьте новый день</string>
+    <string name="save">Сохранить</string>
 </resources>

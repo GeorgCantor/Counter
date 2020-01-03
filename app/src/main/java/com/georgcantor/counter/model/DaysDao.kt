@@ -17,7 +17,7 @@ interface DaysDao {
     @Query("SELECT * FROM days WHERE id LIKE :id")
     suspend fun getById(id: String): List<Day>
 
-    @Query("SELECT * FROM days")
+    @Query("SELECT * FROM days ORDER by id")
     suspend fun getAll(): List<Day>
 
 }

@@ -1,9 +1,7 @@
 package com.georgcantor.counter.view.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
@@ -25,6 +23,7 @@ class HistoryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         viewModel = getViewModel { parametersOf() }
         editViewModel = getSharedViewModel { parametersOf() }
     }
@@ -47,6 +46,20 @@ class HistoryFragment : Fragment() {
                 Navigation.findNavController(view).navigate(R.id.editFragment)
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_add, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_add -> {
+                view?.let { Navigation.findNavController(it).navigate(R.id.addFragment) }
+            }
+        }
+        return false
     }
 
 }

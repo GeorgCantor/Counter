@@ -22,6 +22,9 @@ val viewModelModule = module {
     viewModel {
         EditViewModel(get())
     }
+    viewModel {
+        AddViewModel(get())
+    }
 }
 
 val appModule = module {
