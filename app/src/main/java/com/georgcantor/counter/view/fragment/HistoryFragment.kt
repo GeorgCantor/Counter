@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.georgcantor.counter.R
 import com.georgcantor.counter.model.Day
+import com.georgcantor.counter.util.showDialog
 import com.georgcantor.counter.view.adapter.HistoryAdapter
 import com.georgcantor.counter.viewmodel.EditViewModel
 import com.georgcantor.counter.viewmodel.HistoryViewModel
@@ -36,15 +38,22 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val navOption = NavOptions.Builder().setLaunchSingleTop(true).build()
+
         daysRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         daysRecyclerView.setHasFixedSize(true)
 
         viewModel.getDaysStats()
         viewModel.statistics.observe(viewLifecycleOwner, Observer {
-            daysRecyclerView.adapter = HistoryAdapter(it as MutableList<Day>) { day ->
+            daysRecyclerView.adapter = HistoryAdapter(it as MutableList<Day>, { day ->
                 editViewModel.setId(day.id)
                 Navigation.findNavController(view).navigate(R.id.editFragment)
-            }
+            }, {
+                requireContext().showDialog(getString(R.string.remove)) {
+                    viewModel.removeDay(it.id)
+                    Navigation.findNavController(view).navigate(R.id.historyFragment, null, navOption)
+                }
+            })
         })
     }
 

@@ -20,4 +20,7 @@ interface DaysDao {
     @Query("SELECT * FROM days ORDER by id")
     suspend fun getAll(): List<Day>
 
+    @Query("DELETE FROM days WHERE id LIKE :id")
+    suspend fun deleteById(id: String)
+
 }

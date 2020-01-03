@@ -11,7 +11,8 @@ import kotlinx.android.synthetic.main.day_item.view.*
 
 class HistoryAdapter(
     days: MutableList<Day>,
-    private val clickListener: (Day) -> Unit
+    private val clickListener: (Day) -> Unit,
+    private val longClickListener: (Day) -> Unit
 ) :
     RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
@@ -33,6 +34,10 @@ class HistoryAdapter(
 
         holder.itemView.setOnClickListener {
             clickListener(days[position])
+        }
+        holder.itemView.setOnLongClickListener {
+            longClickListener(days[position])
+            true
         }
     }
 

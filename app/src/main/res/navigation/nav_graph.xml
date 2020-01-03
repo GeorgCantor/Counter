@@ -10,9 +10,9 @@
         android:label="TimerFragment" />
 
     <fragment
-        android:id="@+id/statisticsFragment"
+        android:id="@+id/historyFragment"
         android:name="com.georgcantor.counter.view.fragment.HistoryFragment"
-        android:label="StatisticsFragment" />
+        android:label="HistoryFragment" />
 
     <fragment
         android:id="@+id/graphFragment"

@@ -15,4 +15,10 @@ class HistoryViewModel(private val dao: DaysDao) : BaseViewModel() {
         }
     }
 
+    fun removeDay(id: String) {
+        ioScope.launch {
+            dao.deleteById(id)
+        }
+    }
+
 }

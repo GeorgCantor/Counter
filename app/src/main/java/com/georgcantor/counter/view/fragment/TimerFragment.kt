@@ -67,7 +67,7 @@ class TimerFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_history -> {
-                view?.let { Navigation.findNavController(it).navigate(R.id.statisticsFragment) }
+                view?.let { Navigation.findNavController(it).navigate(R.id.historyFragment) }
             }
             R.id.action_graph -> {
                 view?.let { Navigation.findNavController(it).navigate(R.id.graphFragment) }
