@@ -24,4 +24,9 @@
         android:name="com.georgcantor.counter.view.fragment.SettingsFragment"
         android:label="SettingsFragment" />
 
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.georgcantor.counter.view.fragment.EditFragment"
+        android:label="EditFragment" />
+
 </navigation>

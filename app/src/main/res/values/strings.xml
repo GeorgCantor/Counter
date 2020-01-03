@@ -5,4 +5,5 @@
     <string name="exit_message">Выйти из приложения?</string>
     <string name="settings_hint">Установите количество минут для отсчета</string>
     <string name="apply">Применить</string>
+    <string name="change_hours_hint">Укажите количество часов</string>
 </resources>

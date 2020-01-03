@@ -9,7 +9,10 @@ import com.georgcantor.counter.R
 import com.georgcantor.counter.model.Day
 import kotlinx.android.synthetic.main.day_item.view.*
 
-class HistoryAdapter(days: MutableList<Day>) :
+class HistoryAdapter(
+    days: MutableList<Day>,
+    private val clickListener: (Day) -> Unit
+) :
     RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     private val days: MutableList<Day> = ArrayList()
@@ -27,6 +30,10 @@ class HistoryAdapter(days: MutableList<Day>) :
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         holder.dateTextView.text = days[position].id
         holder.hoursTextView.text = days[position].hours.toString()
+
+        holder.itemView.setOnClickListener {
+            clickListener(days[position])
+        }
     }
 
     class HistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
