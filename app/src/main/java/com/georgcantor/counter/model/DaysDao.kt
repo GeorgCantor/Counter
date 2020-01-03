@@ -12,7 +12,7 @@ interface DaysDao {
     suspend fun insert(day: Day): Long
 
     @Query("UPDATE days SET hours = :hours WHERE id LIKE :id")
-    suspend fun updateById(id: String, hours: Int)
+    suspend fun updateById(id: String, hours: Float)
 
     @Query("SELECT * FROM days WHERE id LIKE :id")
     suspend fun getById(id: String): List<Day>

@@ -7,5 +7,5 @@ import androidx.room.PrimaryKey
 data class Day(
     @PrimaryKey
     val id: String,
-    val hours: Int
+    val hours: Float
 )

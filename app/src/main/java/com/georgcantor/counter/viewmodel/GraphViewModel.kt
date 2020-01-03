@@ -6,7 +6,7 @@ import kotlinx.coroutines.launch
 
 class GraphViewModel(private val dao: DaysDao) : BaseViewModel() {
 
-    val daysStats = MutableLiveData<List<Int>>()
+    val daysStats = MutableLiveData<List<Float>>()
 
     fun getData() {
         ioScope.launch {

@@ -51,7 +51,7 @@ class EditFragment : Fragment() {
 
         applyButton.setOnClickListener {
             viewModel.mutableId.observe(viewLifecycleOwner, Observer {
-                viewModel.updateDayHours(it, hours.toString().toInt())
+                viewModel.updateDayHours(it, hours.toString().toFloat())
             })
             Handler().postDelayed({
                 requireActivity().onBackPressed()

@@ -8,7 +8,7 @@ class EditViewModel(private val dao: DaysDao) : BaseViewModel() {
 
     val mutableId = MutableLiveData<String>()
 
-    fun updateDayHours(id: String, hours: Int) {
+    fun updateDayHours(id: String, hours: Float) {
         ioScope.launch {
             dao.updateById(id, hours)
         }

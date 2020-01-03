@@ -26,7 +26,7 @@ class TimerViewModel(
     private val formatted: String by lazy { manager.getString(FORMATTED_MINUTES) ?: "60:00" }
 
     private lateinit var countDownTimer: CountDownTimer
-    var hour = 0
+    var hour = 0.0F
     var formattedTime = MutableLiveData<String>().apply { postValue(formatted) }
     val timer = MutableLiveData<Long>().apply { postValue(minutes) }
     val hours = MutableLiveData<String>()
@@ -38,7 +38,7 @@ class TimerViewModel(
     init {
         ioScope.launch {
             val days = dao.getById(currentDate)
-            hour = if (days.isNotEmpty()) days.first().hours else 0
+            hour = if (days.isNotEmpty()) days.first().hours else 0.0F
             hours.postValue(hour.toString())
         }
     }

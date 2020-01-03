@@ -50,7 +50,7 @@ class AddFragment : Fragment() {
             viewModel.addDay(
                 Day(
                     id = dateEditText.text.toString(),
-                    hours = hoursEditText.text.toString().toInt()
+                    hours = hoursEditText.text.toString().toFloat()
                 )
             )
             Handler().postDelayed({

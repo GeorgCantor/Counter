@@ -58,7 +58,7 @@
         android:id="@+id/hoursEditText"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:maxLines="1"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/saveButton"
