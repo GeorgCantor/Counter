@@ -3,6 +3,8 @@ package com.georgcantor.counter.viewmodel
 import android.media.MediaActionSound
 import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.georgcantor.counter.model.Day
 import com.georgcantor.counter.model.DaysDao
 import com.georgcantor.counter.util.PreferenceManager
@@ -16,7 +18,7 @@ import java.util.concurrent.TimeUnit
 class TimerViewModel(
     private val manager: PreferenceManager,
     private val dao: DaysDao
-) : BaseViewModel() {
+) : ViewModel() {
 
     companion object {
         private const val START = "Старт"
@@ -36,7 +38,7 @@ class TimerViewModel(
     val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
 
     init {
-        ioScope.launch {
+        viewModelScope.launch {
             val days = dao.getById(currentDate)
             hour = if (days.isNotEmpty()) days.first().hours else 0.0F
             hours.postValue(hour.toString())
@@ -55,7 +57,7 @@ class TimerViewModel(
                 isStarted.value = false
                 MediaActionSound().play(MediaActionSound.START_VIDEO_RECORDING)
 
-                ioScope.launch {
+                viewModelScope.launch {
                     if (dao.getById(currentDate).isNotEmpty()) {
                         dao.updateById(currentDate, hour)
                     } else {
