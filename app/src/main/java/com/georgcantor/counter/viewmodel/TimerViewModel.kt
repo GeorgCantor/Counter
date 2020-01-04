@@ -34,6 +34,7 @@ class TimerViewModel(
     val hours = MutableLiveData<String>()
     val buttonText = MutableLiveData<String>().apply { postValue(START) }
     val isStarted = MutableLiveData<Boolean>().apply { postValue(false) }
+    val shouldStartAgain = MutableLiveData<Boolean>().apply { postValue(false) }
 
     val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
 
@@ -43,6 +44,10 @@ class TimerViewModel(
             hour = if (days.isNotEmpty()) days.first().hours else 0.0F
             hours.postValue(hour.toString())
         }
+    }
+
+    fun startOrPause() {
+        if (isStarted.value == true) pause() else start(timer.value ?: 0L)
     }
 
     private fun start(length: Long) {
@@ -55,6 +60,7 @@ class TimerViewModel(
                 timer.value = minutes
                 buttonText.value = START
                 isStarted.value = false
+                shouldStartAgain.value = true
                 MediaActionSound().play(MediaActionSound.START_VIDEO_RECORDING)
 
                 viewModelScope.launch {
@@ -76,6 +82,7 @@ class TimerViewModel(
                 timer.value = millisUntilFinished
                 buttonText.value = "Пауза"
                 isStarted.value = true
+                shouldStartAgain.value = false
             }
 
         }.start()
@@ -85,10 +92,6 @@ class TimerViewModel(
         countDownTimer.cancel()
         buttonText.value = "Продолжить"
         isStarted.value = false
-    }
-
-    fun startOrPause() {
-        if (isStarted.value == true) pause() else start(timer.value ?: 0L)
     }
 
 }

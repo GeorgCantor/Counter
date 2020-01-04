@@ -54,6 +54,10 @@ class TimerFragment : Fragment() {
             countdownTextView.text = it
         })
 
+        viewModel.shouldStartAgain.observe(viewLifecycleOwner, Observer { mustStart ->
+            if (mustStart) viewModel.startOrPause()
+        })
+
         startButton.setOnClickListener {
             viewModel.startOrPause()
         }

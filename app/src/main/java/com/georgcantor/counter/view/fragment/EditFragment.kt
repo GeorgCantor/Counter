@@ -1,7 +1,6 @@
 package com.georgcantor.counter.view.fragment
 
 import android.os.Bundle
-import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -53,9 +52,7 @@ class EditFragment : Fragment() {
             viewModel.mutableId.observe(viewLifecycleOwner, Observer {
                 viewModel.updateDayHours(it, hours.toString().toFloat())
             })
-            Handler().postDelayed({
-                requireActivity().onBackPressed()
-            }, 500)
+            requireActivity().recreate()
         }
     }
 
