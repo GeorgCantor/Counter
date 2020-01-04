@@ -36,7 +36,7 @@ class TimerViewModel(
     val isStarted = MutableLiveData<Boolean>().apply { postValue(false) }
     val shouldStartAgain = MutableLiveData<Boolean>().apply { postValue(false) }
 
-    val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
+    val currentDate: String = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Date())
 
     init {
         viewModelScope.launch {
